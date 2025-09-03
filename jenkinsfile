@@ -24,7 +24,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     credentialsId: 'sunil_git-cred',
-                    url: 'https://github.com/gsunil81/Spring-boot-hello-world-app.git'
+                    url: 'https://github.com/gsunil81/dockerapp.git'
             }
         }
 
