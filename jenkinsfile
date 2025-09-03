@@ -28,6 +28,12 @@ pipeline {
             }
         }
 
+        stage('Verify Dockerfile') {
+            steps {
+                sh 'test -f Dockerfile || (echo "❌ Dockerfile missing!" && exit 1)'
+            }
+        }
+
         stage('Build with Maven') {
             steps {
                 sh 'mvn clean package -DskipTests'
@@ -79,6 +85,9 @@ pipeline {
                     echo "🚀 Applying deployment and service manifests..."
                     kubectl apply -n $NAMESPACE -f k8s/deployment.yaml
                     kubectl apply -n $NAMESPACE -f k8s/service.yaml
+
+                    echo "🔄 Checking rollout status..."
+                    kubectl rollout status deployment springboot-deployment -n $NAMESPACE
                 '''
             }
         }
